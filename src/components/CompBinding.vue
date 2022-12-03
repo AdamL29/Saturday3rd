@@ -1,5 +1,8 @@
 <template>
     <div>
+        <!-- Toggling dark mode for a global communication -->
+        <button @click="toggleDark">Toggle Dark Mode</button>
+
         <!-- Insert a prop from another component file -->
         <PropComponent :counter="counter" customerString="Test"/>
 
@@ -26,17 +29,20 @@
 
         
         <!-- 2 ways to right the v-for loop -->
-        <p v-for="(item,index) in foods" :key="index">
+        <!-- <p v-for="(item,index) in foods" :key="index"> -->
         <!-- index cover lists with matching items/arrays -->
         <!-- <p v-for="item in foods" :key="item">  -->
             <!-- :key binds the key to the item -->
-            {{index}} {{item}} 
-        </p>
+            <!-- {{index}} {{item}}  -->
+        <!-- </p> -->
+
+        <!-- emit listener below -->
         <FoodCard v-for="(food, i) in inventory" 
             :key="i" 
             :foodName="food.name"
             :stock="food.count"
             :foodImage="food.img"
+            @buyItem="shoppingCart"
             />
     </div>
 </template>
@@ -44,6 +50,7 @@
 <script>
 import PropComponent from './PropComponent.vue';
 import FoodCard from './FoodCard.vue';
+
     export default {
         components: {
             PropComponent,
@@ -67,10 +74,11 @@ import FoodCard from './FoodCard.vue';
                 {
                     name: "Watermelon",
                     count: 5,
-                    img: "https://i0.wp.com/post.healthline.com/wp-content/uploads/2021/11/watermelon-1296x728-header-1.jpg?w=1155&h=1528",
+                    img: "https://m.media-amazon.com/images/I/61je8va-QgL._AC_SY450_.jpg",
                 }
-            ]
-        };
+            ],
+            cart : []
+        }
     },
     methods: {
         // Changes the number and the image when the button is clicked.
@@ -83,6 +91,13 @@ import FoodCard from './FoodCard.vue';
         },
         changeColor() {
             this.$refs.counterContainer.style.color = "pink";
+        },
+        shoppingCart(item){
+            this.cart.push(item);
+            //  Backing it up in a cookie
+        },
+        toggleDark(){
+            this.$root.$emit(`toggleDark`)
         }
     },
 }
@@ -90,6 +105,6 @@ import FoodCard from './FoodCard.vue';
 
 <style scoped>
     img{
-        width: 30vw;
+        width: 20vw;
     }
 </style>

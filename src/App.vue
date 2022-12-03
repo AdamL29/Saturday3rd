@@ -10,9 +10,17 @@ import CompBinding from '@/components/CompBinding.vue';
 
 export default {
   name: 'App',
-  components: {
-    CompBinding,
-  }
+    components: {
+      CompBinding,
+    },
+      methods: {
+        darkMode() {
+          console.log("Dark mode toggled in app.vue");
+        }
+      },
+      mounted () {
+        this.$root.$on(`toggleDark`, this.darkMode);
+      },
 }
 </script>
 

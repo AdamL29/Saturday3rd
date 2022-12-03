@@ -3,6 +3,7 @@
         <h1>{{foodName}}</h1>
         <p>In stock: {{stock}}</p>
         <img :src="foodImage">
+        <button @click="addToCart">Add to Cart</button>
     </div>
 </template>
 
@@ -17,12 +18,23 @@
             },
             stock: Number
         },
+        methods: {
+            addToCart() {
+                this.$emit(`buyItem`, this.foodName)
+            },
+            toggleDarkMode(){
+                console.log("Dark mode toggled in food card for: "+this.foodName);
+            }
+        },
+        mounted(){
+            this.$root.$on(`toggleDark`, this.toggleDarkMode);
+        }
     }
 </script>
 
 <style scoped>
     img{
-        widows: 30vw;
+        width: 30vw;
     }
     div{
         border: navy 1px solid;
