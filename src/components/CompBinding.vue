@@ -1,11 +1,17 @@
 <template>
     <div>
-        {{counter}} <!-- Binding variable-->
-        {{counter > 5 ? "large" : "small"}}
+        <!-- Vue's Equivalent to ID's -->
+        <p ref="counterContainer">
+            {{counter}} <!-- Binding variable-->
+            {{counter > 5 ? "large" : "small"}}
+        </p>
+        
         <!-- Below removes the mounted section for the event listener -->
         <button @click="increment">Increment</button>
         <button @click="toggleImage">Show/Hide Image</button>
         <!-- @ only works with JS actions; All lowercase -->
+
+        <button @click="changeColor">Change Color</button>
 
         <!-- Binding the image -->
         <!-- v-if statement with v-else -->
@@ -51,6 +57,9 @@
             },
             toggleImage(){
                 this.isImageVisible = !this.isImageVisible;
+            },
+            changeColor(){
+                this.$refs.counterContainer.style.color = "pink";
             }
         },
     }
