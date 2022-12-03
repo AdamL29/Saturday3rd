@@ -1,5 +1,9 @@
 <template>
     <div>
+        <!-- Insert a prop from another component file -->
+        <PropComponent :counter="counter" customerString="Test"/>
+
+
         <!-- Vue's Equivalent to ID's -->
         <p ref="counterContainer">
             {{counter}} <!-- Binding variable-->
@@ -13,7 +17,7 @@
 
         <button @click="changeColor">Change Color</button>
 
-        <!-- Binding the image -->
+        <!-- Binding (:) the image -->
         <!-- v-if statement with v-else -->
         <img v-if="isImageVisible" :src="imgSrc" alt="">
         <!-- Above with the toggleImage is now works with a boolean IF to show and remove the image -->
@@ -28,45 +32,64 @@
             <!-- :key binds the key to the item -->
             {{index}} {{item}} 
         </p>
+        <FoodCard v-for="(food, i) in inventory" 
+            :key="i" 
+            :foodName="food.name"
+            :stock="food.count"
+            :foodImage="food.img"
+            />
     </div>
 </template>
 
 <script>
+import PropComponent from './PropComponent.vue';
+import FoodCard from './FoodCard.vue';
     export default {
-        name: "CompBinding",
-        data(){
-            return{
-                counter: 0,
-                isImageVisible : false,
-                imgSrc : "https://i5.walmartimages.com/asr/8ca44267-6301-42d1-9bcc-d2b0bd839f91.54920c2e6be1b154de49b324995fc10c.jpeg?odnHeight=2000&odnWidth=2000&odnBg=ffffff",
-                foods: [`fettuccine`, 
-                        `watermelon`, 
-                        `lasagna`, 
-                        `tacos`,
-                        `donair poutine`, 
-                        `buddha bowl`, 
-                        `pizza`, 
-                        `dates`],
-            }
+        components: {
+            PropComponent,
+            FoodCard,
         },
-        methods: {
-            // Changes the number and the image when the button is clicked.
-            increment() {
-                this.counter++;
-                this.imgSrc ="https://m.media-amazon.com/images/I/61je8va-QgL._AC_SY450_.jpg";
-            },
-            toggleImage(){
-                this.isImageVisible = !this.isImageVisible;
-            },
-            changeColor(){
-                this.$refs.counterContainer.style.color = "pink";
-            }
+    name: "CompBinding",
+    data() {
+        return {
+            counter: 0,
+            isImageVisible: false,
+            imgSrc: "https://i5.walmartimages.com/asr/8ca44267-6301-42d1-9bcc-d2b0bd839f91.54920c2e6be1b154de49b324995fc10c.jpeg?odnHeight=2000&odnWidth=2000&odnBg=ffffff",
+            foods: [`fettuccine`, 
+                    `watermelon`, 
+                    `lasagna`, 
+                    `tacos`, 
+                    `donair poutine`, 
+                    `buddha bowl`, 
+                    `pizza`, 
+                    `dates`],
+            inventory:[
+                {
+                    name: "Watermelon",
+                    count: 5,
+                    img: "https://i0.wp.com/post.healthline.com/wp-content/uploads/2021/11/watermelon-1296x728-header-1.jpg?w=1155&h=1528",
+                }
+            ]
+        };
+    },
+    methods: {
+        // Changes the number and the image when the button is clicked.
+        increment() {
+            this.counter++;
+            this.imgSrc = "https://m.media-amazon.com/images/I/61je8va-QgL._AC_SY450_.jpg";
         },
-    }
+        toggleImage() {
+            this.isImageVisible = !this.isImageVisible;
+        },
+        changeColor() {
+            this.$refs.counterContainer.style.color = "pink";
+        }
+    },
+}
 </script>
 
 <style scoped>
     img{
-        width: 40vw;
+        width: 30vw;
     }
 </style>
